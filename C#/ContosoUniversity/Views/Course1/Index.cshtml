@@ -1,0 +1,79 @@
+﻿@model ContosoUniversity.ViewModels.CoursesSearch
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center" style="color:#337AB7">Courses Index</h2>
+
+<form id="myForm" method="POST" class="well-sm">
+    <div class="row">
+        <div class="form-horizontal">
+            <div class="col-lg-2">
+                @Html.Label("Course ID")
+                @Html.TextBoxFor(m => m.CourseID, new { @class = "form-control" })
+            </div>
+            <div class="col-lg-2">
+                @Html.Label("Title")
+                @Html.TextBoxFor(m => m.Title, new { @class = "titleTypeahead form-control", @type = "search", @placeholder = "Title" })               
+            </div>
+            <div class="col-lg-2">
+                @Html.Label("Credit")
+                @Html.TextBoxFor(m => m.Credits, new { @class = "form-control" })
+            </div>
+            <div class="col-lg-2">
+                @Html.Label("Department")
+                @Html.DropDownListFor(m => m.DepartmentID, ViewBag.Departments as IEnumerable<SelectListItem>, "Select Department", new { @class = "form-control" })
+            </div>
+            <div class="col-lg-2" style="margin-top:25px;">
+                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="button" onclick="fnReset('#myForm')" class="btn btn-primary">Clear</button>
+            </div>
+            <div class="col-lg-2 pull-right" style="margin-top:25px;">
+                @Html.ActionLink("Create New", "Add", "People", null, new { @class = "btn btn-primary" })
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<table id="myTable" class="table table-striped table-hover" style="margin-bottom:0.1em;">
+    <thead style="background-color:whitesmoke">
+        <tr>
+            <th>Course ID</th>
+            <th>Title</th>
+            <th>Credits</th>
+            <th>Department</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Courses)
+        {
+            <tr style="cursor:pointer" onclick="window.location.href = '@Url.Content("~/Course1/Details/"+item.CourseID)';">
+                <td scope="row">@item.CourseID</td>
+                <td>@item.Title</td>
+                <td>@item.Credits</td>
+                <td>@item.Department.Name</td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+
+@section scripts{
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script src="~/Scripts/Jquery.University.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#myTable").DataTable();
+
+            fnTypeAhead('.titleTypeahead', @Html.Raw(Json.Encode(ViewBag.CourseTitle)));
+
+        });
+
+    </script>
+}
+

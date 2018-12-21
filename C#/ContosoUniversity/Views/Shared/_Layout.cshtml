@@ -33,9 +33,18 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Students", "Index", "Student")</li>
-                    <li>@Html.ActionLink("Courses", "Index", "Course")</li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Courses <span class="glyphicon glyphicon-chevron-down"></span>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>@Html.ActionLink("Course", "Index", "Course")</li>
+                            <li>@Html.ActionLink("Course1", "Index", "Course1")</li>                           
+                        </ul>
+                    </li>                   
                     <li>@Html.ActionLink("Instructors", "Index", "Instructor")</li>
                     <li>@Html.ActionLink("Departments", "Index", "Department")</li>
+                    <li>@Html.ActionLink("People", "Index", "People")</li>
                 </ul>
             </div>
         </div>
@@ -50,6 +59,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/dropzone")
     @RenderSection("scripts", required: false)
 </body>
 </html>
