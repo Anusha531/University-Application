@@ -1,0 +1,72 @@
+﻿@model ContosoUniversity.ViewModels.PeopleSearch
+@{
+    ViewBag.Title = "Index";
+}
+<div class="panel m-t-20">
+    <div class="panel-heading">
+        <h2 class="text-center" style="color:#337AB7">People Index</h2>
+        <div class="pull-right">
+            @Html.ActionLink("Create New", "Add", "People", null, new { @class = "btn btn-primary" })
+        </div>
+    </div>
+    <div class="panel-body">
+        <form id="myForm" method="POST"  class="well-sm">
+            <div class="row form-horizontal input-group">
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    @Html.Label("Person ID")
+                    @Html.TextBoxFor(m => m.PersonID, new { @class = "form-control" })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    @Html.Label("Name")
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                </div>
+                @*<div class="col-lg-2 col-md-2 col-sm-2">
+                    @Html.Label("Type")
+                    @Html.TextBoxFor(m => m.PersonType, new { @class = "form-control" })
+                </div>*@
+                <div class="col-lg-2 col-md-2 col-sm-2" style="margin-top:25px;">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                    <button type="button" onclick="fnReset('#myForm')" class="btn btn-primary">Clear</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+<div class="panel" style="padding:10px;">
+    <table id="myTable" class="table table-striped table-hover" style="margin-bottom:0.1em;">
+        <thead style="background-color:whitesmoke">
+            <tr>
+                <th>Person ID</th>
+                <th>Last Name</th>
+                <th>First Name</th>
+                @*<th>Type</th>*@
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.People)
+            {
+                <tr style="cursor:pointer" onclick="window.location.href = '@Url.Content("~/People/Details/"+item.ID)';">
+                    <td scope="row">@item.ID</td>
+                    <td>@item.LastName</td>
+                    <td>@item.FirstMidName</td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
+@section scripts{
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#myTable").DataTable();
+
+        });
+
+    </script>
+}
