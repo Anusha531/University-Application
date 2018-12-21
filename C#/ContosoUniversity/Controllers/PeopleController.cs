@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ContosoUniversity.ViewModels;
+using ContosoUniversity.Models;
 
 namespace ContosoUniversity.Controllers
 {
@@ -20,7 +21,7 @@ namespace ContosoUniversity.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult Index(PeopleSearch model)
         {
             // Get Leases
@@ -41,6 +42,25 @@ namespace ContosoUniversity.Controllers
 
 
             return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult Details(int id)
+        {
+
+            var item = db.People.Find(id);
+
+            if (item == null)
+                return HttpNotFound();
+
+            return View("Details", item);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Details(Person model)
+        {
+            return View("Details", model);
         }
     }
 }

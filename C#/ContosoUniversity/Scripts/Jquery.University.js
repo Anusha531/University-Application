@@ -27,3 +27,18 @@ function fnTypeAhead(className, dataSource) {
         });
 
 }
+
+function areYouSureState(buttonId) {
+    $('form').areYouSure({ 'silent': true });
+
+    $('form').on('dirty.areYouSure', function () {
+        // Enable save button only as the form is dirty.
+        $(buttonId).removeAttr('disabled');
+        console.log("dirty!");
+    });
+    $('form').on('clean.areYouSure', function () {
+        // Form is clean so nothing to save - disable the save button.
+        $(buttonId).attr('disabled', 'disabled');
+        console.log("clean");
+    });
+}

@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using ContosoUniversity.Models;
 using ContosoUniversity.ViewModels;
+using System.Data.Entity;
 
 namespace ContosoUniversity.Controllers
 {
@@ -29,7 +30,7 @@ namespace ContosoUniversity.Controllers
 
       
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult Index(CoursesSearch model)
         {
             // Get Leases
@@ -51,5 +52,53 @@ namespace ContosoUniversity.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public ActionResult Details(int id)
+        {
+
+            var item = db.Courses.Find(id);
+
+            if (item == null)
+                return HttpNotFound();
+
+            return View("Details", item);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Details(Course model)
+        {
+            var CourseID = UpdateCourse(model);
+            return View("Details", model);
+        }
+
+        #region Save and Update date into Database
+
+        public int UpdateCourse(Course item)
+        {
+            var itemToUpdate = db.Courses.Find(item.CourseID);
+            
+            if (itemToUpdate != null)
+            {
+                itemToUpdate.Title = item.Title;
+                itemToUpdate.Credits = item.Credits;
+                itemToUpdate.DepartmentID = item.DepartmentID;
+                
+                db.Entry(itemToUpdate).State = EntityState.Modified;
+                db.SaveChanges();
+
+            }
+            else
+            {
+                db.Entry(item).State = EntityState.Added;
+                db.SaveChanges();
+            }
+
+            return item.CourseID;
+
+        }
+
+        #endregion
     }
 }

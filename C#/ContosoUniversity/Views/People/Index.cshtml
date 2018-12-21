@@ -8,6 +8,7 @@
     </div>
     <div class="panel-body">
         <form id="myForm" method="POST" class="well-sm">
+            @Html.AntiForgeryToken()
             <div class="row">
                 <div class="form-horizontal">
                     <div class="col-lg-2">
@@ -19,9 +20,9 @@
                         @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
                     </div>
                     @*<div class="col-lg-2 col-md-2 col-sm-2">
-                            @Html.Label("Type")
-                            @Html.TextBoxFor(m => m.PersonType, new { @class = "form-control" })
-                        </div>*@
+                    @Html.Label("Type")
+                    @Html.TextBoxFor(m => m.PersonType, new { @class = "form-control" })
+                </div>*@
                     <div class="col-lg-2" style="margin-top:25px;">
                         <button type="submit" class="btn btn-primary">Search</button>
                         <button type="button" onclick="fnReset('#myForm')" class="btn btn-primary">Clear</button>

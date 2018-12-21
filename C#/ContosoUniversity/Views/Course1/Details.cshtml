@@ -1,0 +1,117 @@
+﻿
+@model ContosoUniversity.Models.Course
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel m-t-20">
+    <div class="panel-heading">
+        <h2 class="text-center" style="color:#337AB7">
+            Course Details: @Model.Title
+        </h2>
+    </div>
+    <div class="panel-body">
+        <form class="well-sm" method="POST" autocomplete="off">
+            @Html.AntiForgeryToken()
+            <div>
+                <input type="button" class="btn btn-primary" value="Back to List" onclick="location.href='@Url.Action("Index")'" />
+                <button type="submit" class="btn btn-primary saveDetails" disabled>Save</button>
+            </div>
+            <div>
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            </div>
+
+            <div style="display:flex">
+                <div style="display:inline-block">
+                    <table>
+                        <tr>
+                            <td>@Html.Label("Course ID")</td>
+                            <td>@Html.TextBoxFor(m => m.CourseID, new { disabled = "true", @class = "form-control", style = "min-width:200px; max-width: 100%;" })</td>
+                            @Html.HiddenFor(m => m.CourseID)
+                        </tr>
+                        <tr>
+                            <td>@Html.LabelFor(m => m.Title)</td>
+                            <td>@Html.TextBoxFor(m => m.Title, new { @class = "form-control" })</td>
+                        </tr>
+                        <tr>
+                            <td>@Html.LabelFor(m => m.Credits)</td>
+                            <td>@Html.TextBoxFor(m => m.Credits, new { @class = "form-control" })</td>
+                        </tr>
+                        <tr>
+                            <td>@Html.LabelFor(m => m.Department)</td>
+                            <td>@Html.DropDownListFor(m => m.DepartmentID, ViewBag.Departments as IEnumerable<SelectListItem>, "Select Department", new { @class = "form-control" })</td>
+                        </tr>
+                    </table>
+                </div>               
+            </div>
+        </form>
+
+        <div class="row m-t-10">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#leases">Leases</a></li>
+                <li><a data-toggle="pill" href="#documents">Documents</a></li>
+                <li><a data-toggle="pill" href="#comments">Comments</a></li>
+            </ul>
+
+            <div class="tab-content">
+
+                <div id="leases" class="tab-pane fade in active">
+                    Coming soon......
+                    @*<div>
+                            @Html.Partial("~/Views/Shared/GlobalEntries/_Leases.cshtml", Model.GlobalEntryLeases.ToList())
+
+                            @{ Html.RenderPartial("~/Views/Shared/GlobalEntries/_FeeInterestPopup.cshtml", Model.FeeInterestPopupVM); }
+                        </div>*@
+                </div>
+
+
+                <div id="documents" class="tab-pane fade">
+                    Coming soon......
+                    @*<div class="row">
+                            <div class="col-md-10">
+                                @Html.Partial("~/Views/Shared/GlobalEntries/_Documents.cshtml", Model.Documents.ToList())
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="dropzone dz-clickable" id="filesDropZone" data-url="@Url.Content("~/GlobalEntries/FileUpload?ID="+Model.GlobalEntry.Id)" style="border:2px dashed black;">
+                                    <div id="dz-error-message"><span style="color:red"></span> </div>
+                                    <div class="dz-message">
+                                        Drop files here or click to upload.
+                                    </div>
+                                    <div class="fallback">
+                                        <input name="file" type="file" multiple />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                </div>
+
+                <div id="comments" class="tab-pane fade">
+                    Coming soon......
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Scripts/Jquery.University.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('form').areYouSure();
+
+            areYouSureState(".saveDetails");
+
+        });
+
+    </script>
+}
