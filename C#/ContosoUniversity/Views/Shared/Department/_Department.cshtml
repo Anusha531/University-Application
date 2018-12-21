@@ -1,0 +1,17 @@
+﻿@model ContosoUniversity.Models.Department
+
+<tr id="departmentRow_@Model.DepartmentID">
+
+    <td>@Html.DisplayFor(x => x.DepartmentID)</td>
+    <td>@Html.DisplayFor(x => x.Name)</td>
+    <td>@Html.DisplayFor(x => x.Budget)</td>
+    <td>@string.Format("{0:MM/dd/yyyy}", Model.StartDate)</td>
+    <td>
+        <button id="btnDeleteDepartment_@Model.DepartmentID" data-url='@Url.Action("DeleteDepartment","Course", new { Id = Model.DepartmentID})' type="button" class="btn btn-danger pull-left" onclick="deleteRow('#btnDeleteDepartment_@Model.DepartmentID','#myDepartmentTable', '#departmentRow_@Model.DepartmentID')">
+            <span class="glyphicon glyphicon-remove"></span>
+        </button>
+    </td>
+
+    @Html.HiddenFor(x => x.DepartmentID)
+
+</tr>

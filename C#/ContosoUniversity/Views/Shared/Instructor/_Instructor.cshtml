@@ -1,0 +1,12 @@
+﻿@model ContosoUniversity.Models.Instructor
+
+<tr id="instructorRow_@Model.ID">
+
+    <td>@Html.DisplayFor(x => x.ID)</td>
+    <td>@Html.DisplayFor(x => x.FullName)</td>    
+    <td>@string.Format("{0:MM/dd/yyyy}", Model.HireDate)</td>
+    <td></td>
+    
+    @Html.HiddenFor(x => x.ID)
+
+</tr>

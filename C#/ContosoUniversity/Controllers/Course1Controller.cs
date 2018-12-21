@@ -18,6 +18,8 @@ namespace ContosoUniversity.Controllers
         {
             ViewBag.Departments = db.Departments.Select(o => new SelectListItem { Value = o.DepartmentID.ToString(), Text = o.Name }).Distinct().OrderBy(x => x.Text).ToList();
             ViewBag.CourseTitle = db.Courses.Select(x => x.Title).OrderBy(x=>x).ToList();
+            var instructors = db.Instructors.ToList();
+            ViewBag.Instructors = instructors.Select(o => new SelectListItem { Value = o.ID.ToString(), Text = o.FullName }).Distinct().OrderBy(x => x.Text).ToList();
         }
 
         // GET: Course1
@@ -56,24 +58,61 @@ namespace ContosoUniversity.Controllers
         [HttpGet]
         public ActionResult Details(int id)
         {
-
-            var item = db.Courses.Find(id);
-
+            var item  = db.Courses.Find(id);
             if (item == null)
                 return HttpNotFound();
 
-            return View("Details", item);
+            var details = GetDetails(id);
+
+            return View("Details", details);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Details(Course model)
+        public ActionResult Details(CoursesDetails model)
         {
-            var CourseID = UpdateCourse(model);
-            return View("Details", model);
+            var CourseID = UpdateCourse(model.Course);
+
+            if (CourseID == 0)
+                return HttpNotFound();
+
+            var details = GetDetails(CourseID);
+
+            return View("Details", details);
+        }
+
+        [HttpPost]
+        public ActionResult AddCourseInstructor(CourseInstructor item)
+        {
+            var course = db.Courses.Find(item.CourseID);
+            var instructor = db.Instructors.Find(item.InstructorID);
+
+            if (course != null && instructor != null)
+            {
+                course.Instructors.Add(instructor);
+
+                db.Entry(course).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return PartialView("~/Views/Shared/Instructor/_Instructor.cshtml", instructor); 
         }
 
         #region Save and Update date into Database
+
+        public CoursesDetails GetDetails(int CourseID)
+        {
+            var details = new CoursesDetails();
+            var item = db.Courses.Find(CourseID);
+            details.Course = item;
+            details.Instructors = item.Instructors;
+
+            var newCourseInstructor = new CourseInstructor();
+            newCourseInstructor.CourseID = item.CourseID;
+            details.NewCourseInstructor = newCourseInstructor;
+
+            return details;
+        }
 
         public int UpdateCourse(Course item)
         {
@@ -98,6 +137,8 @@ namespace ContosoUniversity.Controllers
             return item.CourseID;
 
         }
+
+       
 
         #endregion
     }

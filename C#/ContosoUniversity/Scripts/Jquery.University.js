@@ -42,3 +42,24 @@ function areYouSureState(buttonId) {
         console.log("clean");
     });
 }
+
+
+function formSubmit(btnID, formID) {
+
+    $(btnID).click(function (e) {
+        e.preventDefault();
+        var form = $(formID);
+        tableID = form.data('table');
+
+        $.ajax({
+            url: form.attr("action"),
+            method: form.attr("method"),// post
+            data: form.serialize(),
+            success: function (result) {
+                $(tableID).find('tbody:first').prepend(result);
+                fnReset(formID);
+            }
+        });
+
+    });
+}

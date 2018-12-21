@@ -1,0 +1,29 @@
+﻿@model List<ContosoUniversity.Models.Department>
+@{
+    ViewBag.Title = "_Departments";
+}
+
+<table class="table table-striped" id='myDepartmentTable'>
+    <thead>
+        <tr>
+            <th colspan="6" scope="colgroup" style="background-color:lightgray; text-align:center; width:100%">Departments</th>
+        </tr>
+        <tr style="background-color:whitesmoke">
+            <th>DepartmentID</th>
+            <th>Name</th>
+            <th>Budget</th>
+            <th>Start Date</th>
+            <th>
+                <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#addDepartmentModal"><span class="glyphicon glyphicon-plus-sign"></span></button>
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            { Html.RenderPartial("~/Views/Shared/Department/_Department.cshtml", item); }
+        }
+    </tbody>
+</table>
+

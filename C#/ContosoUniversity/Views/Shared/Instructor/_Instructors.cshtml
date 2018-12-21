@@ -1,0 +1,27 @@
+﻿@model List<ContosoUniversity.Models.Instructor>
+@{
+    ViewBag.Title = "_Instructors";
+}
+
+<table class="table table-striped" id='myInstructorTable'>
+    <thead>
+        <tr>
+            <th colspan="6" scope="colgroup" style="background-color:lightgray; text-align:center; width:100%">Instructors</th>
+        </tr>
+        <tr style="background-color:whitesmoke">
+            <th>ID</th>
+            <th>Name</th>          
+            <th>Hire Date</th>
+            <th>
+                <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#addCourseInstructorModal"><span class="glyphicon glyphicon-plus-sign"></span></button>
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            { Html.RenderPartial("~/Views/Shared/Instructor/_Instructor.cshtml", item); }
+        }
+    </tbody>
+</table>

@@ -1,5 +1,5 @@
 ﻿
-@model ContosoUniversity.Models.Course
+@model ContosoUniversity.ViewModels.CoursesDetails
 
 @{
     ViewBag.Title = "Details";
@@ -9,7 +9,7 @@
 <div class="panel m-t-20">
     <div class="panel-heading">
         <h2 class="text-center" style="color:#337AB7">
-            Course Details: @Model.Title
+            Course Details: @Model.Course.Title
         </h2>
     </div>
     <div class="panel-body">
@@ -28,44 +28,42 @@
                     <table>
                         <tr>
                             <td>@Html.Label("Course ID")</td>
-                            <td>@Html.TextBoxFor(m => m.CourseID, new { disabled = "true", @class = "form-control", style = "min-width:200px; max-width: 100%;" })</td>
-                            @Html.HiddenFor(m => m.CourseID)
+                            <td>@Html.TextBoxFor(m => m.Course.CourseID, new { disabled = "true", @class = "form-control", style = "min-width:200px; max-width: 100%;" })</td>
+                            @Html.HiddenFor(m => m.Course.CourseID)
                         </tr>
                         <tr>
-                            <td>@Html.LabelFor(m => m.Title)</td>
-                            <td>@Html.TextBoxFor(m => m.Title, new { @class = "form-control" })</td>
+                            <td>@Html.LabelFor(m => m.Course.Title)</td>
+                            <td>@Html.TextBoxFor(m => m.Course.Title, new { @class = "form-control" })</td>
                         </tr>
                         <tr>
-                            <td>@Html.LabelFor(m => m.Credits)</td>
-                            <td>@Html.TextBoxFor(m => m.Credits, new { @class = "form-control" })</td>
+                            <td>@Html.LabelFor(m => m.Course.Credits)</td>
+                            <td>@Html.TextBoxFor(m => m.Course.Credits, new { @class = "form-control" })</td>
                         </tr>
                         <tr>
                             <td>@Html.LabelFor(m => m.Department)</td>
-                            <td>@Html.DropDownListFor(m => m.DepartmentID, ViewBag.Departments as IEnumerable<SelectListItem>, "Select Department", new { @class = "form-control" })</td>
+                            <td>@Html.DropDownListFor(m => m.Course.DepartmentID, ViewBag.Departments as IEnumerable<SelectListItem>, "Select Department", new { @class = "form-control" })</td>
                         </tr>
                     </table>
-                </div>               
+                </div>
             </div>
         </form>
 
         <div class="row m-t-10">
             <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#leases">Leases</a></li>
+                <li class="active"><a data-toggle="tab" href="#instructor">Instructor</a></li>
                 <li><a data-toggle="pill" href="#documents">Documents</a></li>
                 <li><a data-toggle="pill" href="#comments">Comments</a></li>
             </ul>
 
             <div class="tab-content">
 
-                <div id="leases" class="tab-pane fade in active">
-                    Coming soon......
-                    @*<div>
-                            @Html.Partial("~/Views/Shared/GlobalEntries/_Leases.cshtml", Model.GlobalEntryLeases.ToList())
+                <div id="instructor" class="tab-pane fade in active">
+                    <div>
+                        @Html.Partial("~/Views/Shared/Instructor/_Instructors.cshtml", Model.Instructors.ToList())
 
-                            @{ Html.RenderPartial("~/Views/Shared/GlobalEntries/_FeeInterestPopup.cshtml", Model.FeeInterestPopupVM); }
-                        </div>*@
+                        @{ Html.RenderPartial("~/Views/Shared/_CourseInstructorAdd.cshtml", Model.NewCourseInstructor ); }
+                    </div>
                 </div>
-
 
                 <div id="documents" class="tab-pane fade">
                     Coming soon......
@@ -90,7 +88,6 @@
 
                 <div id="comments" class="tab-pane fade">
                     Coming soon......
-
                 </div>
 
 
@@ -110,6 +107,8 @@
             $('form').areYouSure();
 
             areYouSureState(".saveDetails");
+
+            formSubmit("#btnCourseInstructorSubmit", "#frmCourseInstructor");
 
         });
 
