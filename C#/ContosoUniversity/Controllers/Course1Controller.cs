@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using ContosoUniversity.Models;
 using ContosoUniversity.ViewModels;
 using System.Data.Entity;
+using System.Net.Http;
 
 namespace ContosoUniversity.Controllers
 {
@@ -26,7 +27,38 @@ namespace ContosoUniversity.Controllers
         public ActionResult Index()
         {
             var search = new CoursesSearch();
-            search.Courses = db.Courses.Take(10).ToList();
+            var courses = db.Courses.Take(10).ToList();
+
+            //IEnumerable<Course> courses = null;
+            //var baseUrl = new Uri(new Uri(Request.Url.GetLeftPart(UriPartial.Authority)), Url.Content("~/api/"));
+
+            //using (var client = new HttpClient(new HttpClientHandler() { UseDefaultCredentials = true }))
+            //{
+
+            //    client.BaseAddress = baseUrl;
+
+            //    //HTTP GET
+            //    var responseTask = client.GetAsync("Course");
+            //    responseTask.Wait();
+
+            //    var result = responseTask.Result;
+            //    if (result.IsSuccessStatusCode)
+            //    {
+            //        var readTask = result.Content.ReadAsAsync<IList<Course>>();
+            //        readTask.Wait();
+
+            //        courses = readTask.Result;
+            //    }
+            //    else //web api sent error response 
+            //    {
+            //        //log response status here..
+
+            //        ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+            //    }
+            //}
+
+            search.Courses = courses;
+
             return View(search);
         }
 

@@ -7,6 +7,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using ContosoUniversity.DAL;
 using System.Data.Entity.Infrastructure.Interception;
+using System.Web.Http;
 
 namespace ContosoUniversity
 {
@@ -16,7 +17,8 @@ namespace ContosoUniversity
         {
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            GlobalConfiguration.Configure(WebApiConfig.Register);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);          
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             DbInterception.Add(new SchoolInterceptorTransientErrors());
             DbInterception.Add(new SchoolInterceptorLogging());
