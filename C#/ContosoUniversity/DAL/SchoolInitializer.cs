@@ -59,8 +59,8 @@ namespace ContosoUniversity.DAL
 
             var users = new List<User>
             {
-            new User{UserName="Anusha",Password="Anusha",Roles="admin"},
-            new User{UserName="Read",Password="Read",Roles="read"}
+            new User{UserName="Anusha",Password="Anusha",Roles="Admin"},
+            new User{UserName="Read",Password="Read",Roles="Read"}
             };
 
             users.ForEach(u => context.Users.Add(u));
