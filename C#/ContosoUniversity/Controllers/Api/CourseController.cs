@@ -19,7 +19,7 @@ namespace ContosoUniversity.Controllers.Api
 
             using (var ctx = new SchoolContext())
             {
-                //ctx.Configuration.ProxyCreationEnabled = false;
+                ctx.Configuration.ProxyCreationEnabled = false;
                 items = ctx.Courses.OrderByDescending(x=>x.CourseID).ToList();
             }
 

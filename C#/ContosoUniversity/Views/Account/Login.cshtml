@@ -1,0 +1,30 @@
+﻿
+@model ContosoUniversity.Models.User
+
+@{
+    ViewBag.Title = "Login";  
+}
+
+<h2>Login</h2>
+
+@using (Html.BeginForm())
+{
+    <table>
+        <tr>
+            <td>@Html.Label("User Name")</td>
+            <td>@Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })</td>
+
+        </tr>
+        <tr>
+            <td>@Html.Label("Password")</td>
+            <td>@Html.PasswordFor(m => m.Password, new { @class = "form-control" })</td>
+        </tr>
+    </table>
+
+    <div>       
+        <button type="submit" class="btn btn-primary">Log In</button>
+    </div>
+}
+
+
+

@@ -11,6 +11,7 @@ using System.Net.Http;
 
 namespace ContosoUniversity.Controllers
 {
+    [Authorize]
     public class Course1Controller : Controller
     {
         private SchoolContext db = new SchoolContext();

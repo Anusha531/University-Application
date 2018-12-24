@@ -25,6 +25,7 @@ namespace ContosoUniversity.DAL
 
             students.ForEach(s => context.Students.Add(s));
             context.SaveChanges();
+
             var courses = new List<Course>
             {
             new Course{CourseID=1050,Title="Chemistry",Credits=3,},
@@ -37,6 +38,7 @@ namespace ContosoUniversity.DAL
             };
             courses.ForEach(s => context.Courses.Add(s));
             context.SaveChanges();
+
             var enrollments = new List<Enrollment>
             {
             new Enrollment{StudentID=1,CourseID=1050,Grade=Grade.A},
@@ -53,6 +55,15 @@ namespace ContosoUniversity.DAL
             new Enrollment{StudentID=7,CourseID=3141,Grade=Grade.A},
             };
             enrollments.ForEach(s => context.Enrollments.Add(s));
+            context.SaveChanges();
+
+            var users = new List<User>
+            {
+            new User{UserName="Anusha",Password="Anusha",Roles="admin"},
+            new User{UserName="Read",Password="Read",Roles="read"}
+            };
+
+            users.ForEach(u => context.Users.Add(u));
             context.SaveChanges();
         }
     }
