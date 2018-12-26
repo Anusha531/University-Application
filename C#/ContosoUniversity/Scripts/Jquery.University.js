@@ -63,3 +63,28 @@ function formSubmit(btnID, formID) {
 
     });
 }
+
+function fnDropZone(divID, tableID) {
+
+    var myurl = $(divID).attr('data-url');
+    uploader = new Dropzone(divID, {
+        url: myurl
+    });//end drop zone
+
+    uploader.on("success", function (file, response) {
+        $(tableID).find('tbody:first').prepend(response).find('.datepicker').datepicker();
+
+        if (!$('form').hasClass('dirty')) {
+            $('form').trigger('rescan.areYouSure');
+        }
+
+        $("#dz-error-message span").text("");
+    });
+
+    uploader.on('error', function (file, response) {
+        $("#dz-error-message span").text(response.Message);
+        this.removeFile(file);
+    });
+
+
+}

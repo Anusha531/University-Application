@@ -65,15 +65,14 @@
                     </div>
                 </div>
 
-                <div id="documents" class="tab-pane fade">
-                    Coming soon......
-                    @*<div class="row">
+                <div id="documents" class="tab-pane fade">                  
+                    <div class="row">
                             <div class="col-md-10">
-                                @Html.Partial("~/Views/Shared/GlobalEntries/_Documents.cshtml", Model.Documents.ToList())
+                                @Html.Partial("~/Views/Shared/Document/_Table.cshtml", Model.Documents.ToList())
                             </div>
 
                             <div class="col-md-2">
-                                <div class="dropzone dz-clickable" id="filesDropZone" data-url="@Url.Content("~/GlobalEntries/FileUpload?ID="+Model.GlobalEntry.Id)" style="border:2px dashed black;">
+                                <div class="dropzone dz-clickable" id="filesDropZone" data-url="@Url.Content("~/Course1/FileUpload?CourseID="+Model.Course.CourseID)" style="border:2px dashed black;">
                                     <div id="dz-error-message"><span style="color:red"></span> </div>
                                     <div class="dz-message">
                                         Drop files here or click to upload.
@@ -83,7 +82,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>*@
+                        </div>
                 </div>
 
                 <div id="comments" class="tab-pane fade">
@@ -102,9 +101,11 @@
 @section scripts{
     <script src="~/Scripts/Jquery.University.js"></script>
     <script type="text/javascript">
-
+        Dropzone.autoDiscover = false;
         $(document).ready(function () {
             $('form').areYouSure();
+
+            fnDropZone("#filesDropZone", "#documentsTable");
 
             areYouSureState(".saveDetails");
 

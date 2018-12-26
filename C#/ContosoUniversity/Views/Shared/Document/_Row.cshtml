@@ -1,0 +1,28 @@
+﻿@model  ContosoUniversity.Models.Document
+
+<tr>
+
+    <td>
+        @Html.DisplayFor(x => x.DocumentName)
+    </td>
+    <td>
+        @Html.DisplayFor(x => x.Description)
+    </td>
+    <td>
+        @Html.DisplayFor(x => x.DocumentType)
+    </td>
+    <td>
+        @Html.DisplayFor(x => x.UploadedDate)
+    </td>
+    <td>
+        @Html.DisplayFor(x => x.UploadedUser)
+    </td>
+    @*<td>
+        @Html.ActionLink("View", "ViewFile", "Documents", new { filePath = Model.DocumentLink }, new { target = "_blank" })
+    </td>*@
+    @Html.HiddenFor(x => x.DocumentID)
+    @Html.HiddenFor(x => x.CourseID)
+    @Html.HiddenFor(x => x.DocumentLink)
+
+</tr>
+

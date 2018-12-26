@@ -8,6 +8,8 @@ using ContosoUniversity.Models;
 using ContosoUniversity.ViewModels;
 using System.Data.Entity;
 using System.Net.Http;
+using System.IO;
+using System.Reflection;
 
 namespace ContosoUniversity.Controllers
 {
@@ -115,21 +117,40 @@ namespace ContosoUniversity.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddCourseInstructor(CourseInstructor item)
+        public ActionResult FileUpload(HttpPostedFileBase file, int CourseID)
         {
-            var course = db.Courses.Find(item.CourseID);
-            var instructor = db.Instructors.Find(item.InstructorID);
-
-            if (course != null && instructor != null)
+            try
             {
-                course.Instructors.Add(instructor);
+                if (CourseID == 0)
+                {
+                    throw new InvalidOperationException("Unable to upload document. Please save lease details first.");
+                }
+                
+                var doc = new Document
+                {
+                    DocumentName = file.FileName,
+                    //DocumentLink = tempFileName,
+                    CourseID = CourseID,
+                    UploadedDate = DateTime.Now,
+                    UploadedUser = User.Identity.Name                    
+                };
 
-                db.Entry(course).State = EntityState.Modified;
+                db.Entry(doc).State = EntityState.Added;
                 db.SaveChanges();
+
+                return PartialView("~/Views/Shared/Document/_Row.cshtml", doc);
+            }
+            catch (Exception exception)
+            {
+                Response.StatusCode = 500;
+                return Json(new
+                {
+                    exception.Message
+                });
             }
 
-            return PartialView("~/Views/Shared/Instructor/_Instructor.cshtml", instructor); 
         }
+
 
         #region Save and Update date into Database
 
@@ -139,10 +160,15 @@ namespace ContosoUniversity.Controllers
             var item = db.Courses.Find(CourseID);
             details.Course = item;
             details.Instructors = item.Instructors;
+            details.Documents = item.Documents;
 
             var newCourseInstructor = new CourseInstructor();
             newCourseInstructor.CourseID = item.CourseID;
             details.NewCourseInstructor = newCourseInstructor;
+
+            var newDocumet = new Document();
+            newDocumet.CourseID = item.CourseID;
+            details.NewDocument = newDocumet;
 
             return details;
         }
@@ -171,7 +197,24 @@ namespace ContosoUniversity.Controllers
 
         }
 
-       
+        [HttpPost]
+        public ActionResult AddCourseInstructor(CourseInstructor item)
+        {
+            var course = db.Courses.Find(item.CourseID);
+            var instructor = db.Instructors.Find(item.InstructorID);
+
+            if (course != null && instructor != null)
+            {
+                course.Instructors.Add(instructor);
+
+                db.Entry(course).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return PartialView("~/Views/Shared/Instructor/_Instructor.cshtml", instructor);
+        }
+
+
 
         #endregion
     }
