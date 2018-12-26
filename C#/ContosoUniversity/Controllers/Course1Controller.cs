@@ -137,10 +137,32 @@ namespace ContosoUniversity.Controllers
                     UploadedUser = User.Identity.Name
                 };
 
-                db.Entry(doc).State = EntityState.Added;
-                db.SaveChanges();
+                //add document to db through webapi
+                var baseUrl = new Uri(new Uri(Request.Url.GetLeftPart(UriPartial.Authority)), Url.Content("~/api/"));
 
-                return PartialView("~/Views/Shared/Document/_Row.cshtml", doc);
+                using (var client = new HttpClient(new HttpClientHandler() { UseDefaultCredentials = true }))
+                {
+
+                    client.BaseAddress = baseUrl;
+
+                    //HTTP GET
+                    var responseTask = client.PostAsJsonAsync<Document>("Document", doc);
+                    responseTask.Wait();
+
+                    var result = responseTask.Result;
+                    var documentID = result.Content.ReadAsStringAsync().Result.ToString().Replace("\"","");
+                    int.TryParse(documentID, out int DocumentID);
+                    doc.DocumentID = DocumentID;
+
+                    if (result.IsSuccessStatusCode)
+                    {
+                        return PartialView("~/Views/Shared/Document/_Row.cshtml", doc);
+                    }
+                    else //web api sent error response 
+                    {
+                        return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                    }
+                }
             }
             catch (Exception exception)
             {
@@ -179,20 +201,34 @@ namespace ContosoUniversity.Controllers
             }
 
             return PartialView("~/Views/Shared/Document/_Row.cshtml", itemToUpdate);
+
         }
 
         [HttpPost]
         public ActionResult DeleteDocument(int Id)
         {
-            var item = db.Documents.Find(Id);
-            if (item == null)
-            {
-                return HttpNotFound();
-            }
-            db.Entry(item).State = EntityState.Deleted;
-            db.SaveChanges();
+            //delete document using webapi
+            var baseUrl = new Uri(new Uri(Request.Url.GetLeftPart(UriPartial.Authority)), Url.Content("~/api/"));
 
-            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            using (var client = new HttpClient(new HttpClientHandler() { UseDefaultCredentials = true }))
+            {
+
+                client.BaseAddress = baseUrl;
+
+                //HTTP GET
+                var responseTask = client.DeleteAsync("Document/" + Id.ToString());
+                responseTask.Wait();
+
+                var result = responseTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+                }
+                else //web api sent error response 
+                {
+                    return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+                }
+            }
         }
 
         #endregion
