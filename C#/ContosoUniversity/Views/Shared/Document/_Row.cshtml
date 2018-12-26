@@ -1,6 +1,6 @@
 ﻿@model  ContosoUniversity.Models.Document
 
-<tr>
+<tr id="rowDocument_@Model.DocumentID">
 
     <td>
         @Html.DisplayFor(x => x.DocumentName)
@@ -12,14 +12,22 @@
         @Html.DisplayFor(x => x.DocumentType)
     </td>
     <td>
+        @Html.DisplayFor(x => x.Comment)
+    </td>
+    <td>
         @Html.DisplayFor(x => x.UploadedDate)
     </td>
     <td>
         @Html.DisplayFor(x => x.UploadedUser)
     </td>
-    @*<td>
-        @Html.ActionLink("View", "ViewFile", "Documents", new { filePath = Model.DocumentLink }, new { target = "_blank" })
-    </td>*@
+    <td>
+        <button id="btnEditDocument_@Model.DocumentID" data-url='@Url.Action("ShowDocument","Course1", new { Id = Model.DocumentID})' type="button" class="btn btn-warning pull-left" onclick="showModel('#btnEditDocument_@Model.DocumentID','#editDocumentModal','#frmEditDocument','#btnEditDocumentSubmit','#rowDocument_@Model.DocumentID')">
+            <span class="glyphicon glyphicon-pencil"></span>
+        </button>
+        <button id="btnDeleteDocument_@Model.DocumentID" data-url='@Url.Action("DeleteDocument","Course1", new { Id = Model.DocumentID})' type="button" class="btn btn-danger pull-left" onclick="deleteRow('#btnDeleteDocument_@Model.DocumentID','#documentsTable', '#rowDocument_@Model.DocumentID')">
+            <span class="glyphicon glyphicon-remove"></span>
+        </button>
+    </td>
     @Html.HiddenFor(x => x.DocumentID)
     @Html.HiddenFor(x => x.CourseID)
     @Html.HiddenFor(x => x.DocumentLink)

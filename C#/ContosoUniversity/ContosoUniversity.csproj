@@ -307,14 +307,12 @@
     <Content Include="Views\Shared\CourseInstructor\_CourseInstructorAdd.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_LayoutRead.cshtml" />
-    <Content Include="Views\Shared\Document\_Add.cshtml" />
     <Content Include="Views\Shared\Document\_Edit.cshtml" />
     <Content Include="Views\Shared\Document\_Row.cshtml" />
     <Content Include="Views\Shared\Document\_Table.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="TestUploadDocuments\" />
     <Folder Include="Views\Sutudents\" />
   </ItemGroup>
   <ItemGroup>

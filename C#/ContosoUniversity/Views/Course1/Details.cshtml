@@ -61,28 +61,29 @@
                     <div>
                         @Html.Partial("~/Views/Shared/Instructor/_Instructors.cshtml", Model.Instructors.ToList())
 
-                        @{ Html.RenderPartial("~/Views/Shared/_CourseInstructorAdd.cshtml", Model.NewCourseInstructor ); }
+                        @{ Html.RenderPartial("~/Views/Shared/_CourseInstructorAdd.cshtml", Model.NewCourseInstructor); }
                     </div>
                 </div>
 
-                <div id="documents" class="tab-pane fade">                  
+                <div id="documents" class="tab-pane fade">
                     <div class="row">
-                            <div class="col-md-10">
-                                @Html.Partial("~/Views/Shared/Document/_Table.cshtml", Model.Documents.ToList())
-                            </div>
+                        <div class="col-md-10">
+                            @Html.Partial("~/Views/Shared/Document/_Table.cshtml", Model.Documents.ToList())
+                        </div>
 
-                            <div class="col-md-2">
-                                <div class="dropzone dz-clickable" id="filesDropZone" data-url="@Url.Content("~/Course1/FileUpload?CourseID="+Model.Course.CourseID)" style="border:2px dashed black;">
-                                    <div id="dz-error-message"><span style="color:red"></span> </div>
-                                    <div class="dz-message">
-                                        Drop files here or click to upload.
-                                    </div>
-                                    <div class="fallback">
-                                        <input name="file" type="file" multiple />
-                                    </div>
+                        <div class="col-md-2">
+                            <div class="dropzone dz-clickable" id="filesDropZone" data-url="@Url.Content("~/Course1/FileUpload?CourseID="+Model.Course.CourseID)" style="border:2px dashed black;">
+                                <div id="dz-error-message"><span style="color:red"></span> </div>
+                                <div class="dz-message">
+                                    Drop files here or click to upload.
+                                </div>
+                                <div class="fallback">
+                                    <input name="file" type="file" multiple />
                                 </div>
                             </div>
                         </div>
+                        @{ Html.RenderPartial("~/Views/Shared/Document/_Edit.cshtml", Model.NewDocument); }
+                    </div>
                 </div>
 
                 <div id="comments" class="tab-pane fade">

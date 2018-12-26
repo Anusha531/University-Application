@@ -43,6 +43,26 @@ function areYouSureState(buttonId) {
     });
 }
 
+function formSubmitEdit(btnID, formID, rowID) {
+
+    $(btnID).click(function (e) {
+        e.preventDefault();
+        var form = $(formID);
+        tableID = form.data('table');
+
+        $.ajax({
+            url: form.attr("action"),
+            method: form.attr("method"),// post
+            data: form.serialize(),
+            success: function (result) {
+                $(tableID).find(rowID).replaceWith(result);
+                fnReset(formID);
+            }
+        });
+
+    });
+}
+
 
 function formSubmit(btnID, formID) {
 
@@ -87,4 +107,42 @@ function fnDropZone(divID, tableID) {
     });
 
 
+}
+
+function showModel(btnID, modelID, frmID, submitBtnID, rowID) {
+
+    var myurl = $(btnID).data('url');
+
+    $.ajax({
+        url: myurl,
+        type: "post",
+        cache: false,
+        success: function (result) {
+
+            $(modelID).replaceWith(result);
+
+            formSubmitEdit(submitBtnID, frmID, rowID);
+
+            // show Modal
+            $(modelID).modal('show');
+
+        }
+    });
+
+}
+
+function deleteRow(btnID, tableID, rowID) {
+
+    if (confirm("Are you sure you want to delete this item?")) {
+        var myurl = $(btnID).attr('data-url');
+        $.ajax({
+            type: "POST",
+            url: myurl,
+            cache: false,
+            success: function (success) {
+                $(tableID).find(rowID).remove();
+            }
+        });
+    }
+    return false;
 }

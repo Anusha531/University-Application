@@ -21,7 +21,7 @@ namespace ContosoUniversity.Controllers
         public Course1Controller()
         {
             ViewBag.Departments = db.Departments.Select(o => new SelectListItem { Value = o.DepartmentID.ToString(), Text = o.Name }).Distinct().OrderBy(x => x.Text).ToList();
-            ViewBag.CourseTitle = db.Courses.Select(x => x.Title).OrderBy(x=>x).ToList();
+            ViewBag.CourseTitle = db.Courses.Select(x => x.Title).OrderBy(x => x).ToList();
             var instructors = db.Instructors.ToList();
             ViewBag.Instructors = instructors.Select(o => new SelectListItem { Value = o.ID.ToString(), Text = o.FullName }).Distinct().OrderBy(x => x.Text).ToList();
         }
@@ -65,7 +65,7 @@ namespace ContosoUniversity.Controllers
             return View(search);
         }
 
-      
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Index(CoursesSearch model)
@@ -93,7 +93,7 @@ namespace ContosoUniversity.Controllers
         [HttpGet]
         public ActionResult Details(int id)
         {
-            var item  = db.Courses.Find(id);
+            var item = db.Courses.Find(id);
             if (item == null)
                 return HttpNotFound();
 
@@ -116,6 +116,8 @@ namespace ContosoUniversity.Controllers
             return View("Details", details);
         }
 
+        #region Document
+
         [HttpPost]
         public ActionResult FileUpload(HttpPostedFileBase file, int CourseID)
         {
@@ -125,14 +127,14 @@ namespace ContosoUniversity.Controllers
                 {
                     throw new InvalidOperationException("Unable to upload document. Please save lease details first.");
                 }
-                
+
                 var doc = new Document
                 {
                     DocumentName = file.FileName,
                     //DocumentLink = tempFileName,
                     CourseID = CourseID,
                     UploadedDate = DateTime.Now,
-                    UploadedUser = User.Identity.Name                    
+                    UploadedUser = User.Identity.Name
                 };
 
                 db.Entry(doc).State = EntityState.Added;
@@ -151,6 +153,49 @@ namespace ContosoUniversity.Controllers
 
         }
 
+        [HttpPost]
+        public ActionResult ShowDocument(int Id)
+        {
+            var itemToUpdate = db.Documents.Find(Id);
+
+            return PartialView("~/Views/Shared/Document/_Edit.cshtml", itemToUpdate);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateDocument(Document model)
+        {
+            var itemToUpdate = db.Documents.Find(model.DocumentID);
+
+            if (itemToUpdate != null)
+            {
+                itemToUpdate.DocumentName = model.DocumentName;
+                itemToUpdate.DocumentType = model.DocumentType;
+                itemToUpdate.Description = model.Description;
+                itemToUpdate.Comment = model.Comment;
+
+                db.Entry(itemToUpdate).State = EntityState.Modified;
+                db.SaveChanges();
+
+            }
+
+            return PartialView("~/Views/Shared/Document/_Row.cshtml", itemToUpdate);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteDocument(int Id)
+        {
+            var item = db.Documents.Find(Id);
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
+            db.Entry(item).State = EntityState.Deleted;
+            db.SaveChanges();
+
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
 
         #region Save and Update date into Database
 
@@ -176,13 +221,13 @@ namespace ContosoUniversity.Controllers
         public int UpdateCourse(Course item)
         {
             var itemToUpdate = db.Courses.Find(item.CourseID);
-            
+
             if (itemToUpdate != null)
             {
                 itemToUpdate.Title = item.Title;
                 itemToUpdate.Credits = item.Credits;
                 itemToUpdate.DepartmentID = item.DepartmentID;
-                
+
                 db.Entry(itemToUpdate).State = EntityState.Modified;
                 db.SaveChanges();
 
