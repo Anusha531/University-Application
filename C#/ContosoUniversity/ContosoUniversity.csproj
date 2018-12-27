@@ -200,12 +200,17 @@
     <Compile Include="Migrations\201812261547424_UpdateDocument2.Designer.cs">
       <DependentUpon>201812261547424_UpdateDocument2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812271527170_Cleanup.cs" />
+    <Compile Include="Migrations\201812271527170_Cleanup.Designer.cs">
+      <DependentUpon>201812271527170_Cleanup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Document.cs" />
     <Compile Include="Models\Enrollment.cs" />
     <Compile Include="Models\Instructor.cs" />
+    <Compile Include="Models\Messages.cs" />
     <Compile Include="Models\OfficeAssignment.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\Student.cs" />
@@ -356,6 +361,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812261547424_UpdateDocument2.resx">
       <DependentUpon>201812261547424_UpdateDocument2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812271527170_Cleanup.resx">
+      <DependentUpon>201812271527170_Cleanup.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
