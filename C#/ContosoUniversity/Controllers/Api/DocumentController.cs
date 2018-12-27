@@ -46,6 +46,8 @@ namespace ContosoUniversity.Controllers.Api
             {
                 var item = db.Documents.Find(Id);
 
+                //Test
+
                 db.Entry(item).State = EntityState.Deleted;
                 db.SaveChanges();
             }
